@@ -34,9 +34,19 @@ uploadArchives {
 //            repository(url: "https://mirrors.tencent.com/repository/maven/thirdparty-snapshots/") {
 //                 authentication(userName: MAVEN_USER, password: MAVEN_PWD) // 上传新版本到maven的时候，才打开这个注释。非maven正式版本的管理员请不要操作
 //            }
+            //FIXME hippy4tvmark 修改maven上传源地址为私有仓库
+            //正式
+//            repository(url: "https://repo.rdc.aliyun.com/repository/75985-release-JA32uh/") {
+//                 authentication(userName: MAVEN_USER, password: MAVEN_PWD) // 上传新版本到maven的时候，才打开这个注释。非maven正式版本的管理员请不要操作
+//            }
+
+            //SNAPSHOT
+            repository(url: "https://repo.rdc.aliyun.com/repository/75985-snapshot-mjPaUI/") {
+                 authentication(userName: MAVEN_USER, password: MAVEN_PWD) // 上传新版本到maven的时候，才打开这个注释。非maven正式版本的管理员请不要操作
+            }
             pom.groupId = 'com.tencent.mtt'
             pom.artifactId = 'hippy'
-            pom.version = '2.0.0'
+            pom.version = '2.0.1-debug'
 
             pom.project {
                 licenses {

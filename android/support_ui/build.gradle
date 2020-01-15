@@ -50,3 +50,5 @@ def unZipAar(file) {
         rename 'classes.jar', 'support-ui.jar'
     }
 }
+apply from:'https://gitlab.com/android_tvkit/gradle_scripts/raw/master/scripts/maven_upload.gradle'
+
