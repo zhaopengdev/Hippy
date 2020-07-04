@@ -117,9 +117,7 @@ HIPPY_NOT_IMPLEMENTED(- (instancetype)init)
     
     UIView *view = [self.manager view];
     view.hippyTag = tag;
-#if !TARGET_OS_TV
     view.multipleTouchEnabled = YES;
-#endif
     view.userInteractionEnabled = YES; // required for touch handling
     view.layer.allowsGroupOpacity = YES; // required for touch handling
     return view;
@@ -130,18 +128,13 @@ HIPPY_NOT_IMPLEMENTED(- (instancetype)init)
     return [self.manager node: tag name: _name props: props];
 }
 
-/**
- MttRN:为了让view在初始化的时候获取属性
- */
 - (UIView *)createViewWithTag:(NSNumber *)tag initProps:(NSDictionary *)props
 {
     self.manager.props = props;
     UIView *view = [self.manager view];
     view.hippyTag = tag;
     view.rootTag = props[@"rootTag"];
-#if !TARGET_OS_TV
     view.multipleTouchEnabled = YES;
-#endif
     view.userInteractionEnabled = YES; // required for touch handling
     view.layer.allowsGroupOpacity = YES; // required for touch handling
     return view;
@@ -232,8 +225,7 @@ HIPPY_NOT_IMPLEMENTED(- (instancetype)init)
             
             // Build setter block
             void (^setterBlock)(id target, id json) = nil;
-            if (type == NSSelectorFromString(@"HippyBubblingEventBlock:") ||
-                type == NSSelectorFromString(@"HippyDirectEventBlock:")) {
+            if (type == NSSelectorFromString(@"HippyDirectEventBlock:")) {
                 
                 // Special case for event handlers
                 __weak HippyViewManager *weakManager = self.manager;
@@ -458,7 +450,6 @@ break; \
 - (NSDictionary<NSString *, id> *)viewConfig
 {
     NSMutableArray<NSString *> *directEvents = [NSMutableArray new];
-    NSMutableArray<NSString *> *bubblingEvents = [NSMutableArray new];
     unsigned int count = 0;
     NSMutableDictionary *propTypes = [NSMutableDictionary new];
     Method *methods = class_copyMethodList(object_getClass(_managerClass), &count);
@@ -476,10 +467,7 @@ break; \
                                 "to '%@'", name, _name, propTypes[name], type);
                 }
                 
-                if ([type isEqualToString:@"HippyBubblingEventBlock"]) {
-                    [bubblingEvents addObject:HippyNormalizeInputEventName(name)];
-                    propTypes[name] = @"BOOL";
-                } else if ([type isEqualToString:@"HippyDirectEventBlock"]) {
+                if ([type isEqualToString:@"HippyDirectEventBlock"]) {
                     [directEvents addObject:HippyNormalizeInputEventName(name)];
                     propTypes[name] = @"BOOL";
                 } else {
@@ -489,26 +477,9 @@ break; \
         }
     }
     free(methods);
-    
-    if (HIPPY_DEBUG) {
-        for (NSString *event in directEvents) {
-            if ([bubblingEvents containsObject:event]) {
-                HippyLogError(@"Component '%@' registered '%@' as both a bubbling event "
-                            "and a direct event", _name, event);
-            }
-        }
-        for (NSString *event in bubblingEvents) {
-            if ([directEvents containsObject:event]) {
-                HippyLogError(@"Component '%@' registered '%@' as both a bubbling event "
-                            "and a direct event", _name, event);
-            }
-        }
-    }
-    
     return @{
              @"propTypes" : propTypes,
              @"directEvents" : directEvents,
-             @"bubblingEvents" : bubblingEvents,
              };
 }
 

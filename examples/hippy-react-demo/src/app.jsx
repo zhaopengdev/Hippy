@@ -4,9 +4,8 @@ import {
   View,
   Text,
   Platform,
-} from 'hippy-react';
-import Gallery from './pages/gallery';
-import Camera from './pages/camera';
+} from '@hippy/react';
+import HomeEntry from './pages/entry';
 import Debug from './pages/debug';
 import SafeAreaView from './shared/SafeAreaView';
 
@@ -47,16 +46,13 @@ export default class App extends Component {
   render() {
     const { pageIndex } = this.state;
     const { isSimulator, __instanceId__: instanceId } = this.props;
+
     const renderPage = () => {
       switch (pageIndex) {
-        case (0):
-          return <Gallery />;
-        case (1):
-          // iOS模拟器第二个tab是调试功能
-          // Android暂时也不支持扫码
-          if (isSimulator) return <Debug instanceId={instanceId} />;
-          return <Camera instanceId={instanceId} />;
-        case (2):
+        case 0:
+          return <HomeEntry />;
+        case 1:
+        case 2:
           return <Debug instanceId={instanceId} />;
         default:
           return <View style={styles.blankPage} />;
@@ -72,6 +68,7 @@ export default class App extends Component {
       return (
         buttonArray.map((v, i) => (
           <View
+            key={`button_${v}`}
             style={styles.button}
             onClick={() => this.setState({ pageIndex: i })}
           >

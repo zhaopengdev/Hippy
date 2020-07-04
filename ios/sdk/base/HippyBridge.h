@@ -67,7 +67,7 @@ HIPPY_EXTERN NSString *const HippyJavaScriptDidFailToLoadNotification;
  */
 HIPPY_EXTERN NSString *const HippyDidInitializeModuleNotification;
 
-// MttRN: 业务代码已经成功加载的通知
+
 HIPPY_EXTERN NSString *const HippyBusinessDidLoadNotification;
 
 /**
@@ -90,6 +90,11 @@ HIPPY_EXTERN NSString *HippyBridgeModuleNameForClass(Class bridgeModuleClass);
  * Async batched bridge used to communicate with the JavaScript application.
  */
 @interface HippyBridge : NSObject <HippyInvalidating>
+
+- (instancetype)initWithDelegate:(id<HippyBridgeDelegate>)delegate
+                       bundleURL:(NSURL *)bundleURL
+                  moduleProvider:(HippyBridgeModuleProviderBlock)block
+                   launchOptions:(NSDictionary *)launchOptions;
 /**
  * Creates a new bridge with a custom HippyBridgeDelegate.
  *
@@ -237,16 +242,12 @@ HIPPY_EXTERN NSString *HippyBridgeModuleNameForClass(Class bridgeModuleClass);
  */
 - (BOOL)isBatchActive;
 
-// MttRN: 表示这个bridge是否使用了分包加载
 @property (nonatomic, assign) BOOL useCommonBridge;
 
-// MttRN: 表示是否是Debug模式
 @property (nonatomic, assign) BOOL debugMode;
 
-// MttRN: 共享数据通道
 @property (nonatomic, strong) NSMutableDictionary *shareOptions;
 
-// MttRN: bridge业务名, todo:单引擎的时候此值无效，多引擎的时候有效，目前为多引擎；
 @property (nonatomic, strong) NSString *moduleName;
 
 @property (nonatomic, strong) NSString *appVerson;//宿主App的版本号

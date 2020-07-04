@@ -29,7 +29,6 @@
  * properties. Unlike JS method callbacks, these can be called multiple times.
  */
 typedef void (^HippyDirectEventBlock)(NSDictionary *body);
-typedef void (^HippyBubblingEventBlock)(NSDictionary *body);
 
 /**
  * Logical node in a tree of application components. Both `ShadowView` and
@@ -76,8 +75,7 @@ typedef void (^HippyBubblingEventBlock)(NSDictionary *body);
 
 @end
 
-// TODO: this is kinda dumb - let's come up with a
-// better way of identifying root Hippy views please!
+//hippy use multiple of 10 as tag of root view
 static inline BOOL HippyIsHippyRootView(NSNumber *hippyTag)
 {
     return hippyTag.integerValue % 10 == 0;
