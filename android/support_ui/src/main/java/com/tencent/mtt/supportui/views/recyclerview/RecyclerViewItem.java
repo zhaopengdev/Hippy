@@ -1,6 +1,7 @@
 package com.tencent.mtt.supportui.views.recyclerview;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,20 @@ public class RecyclerViewItem extends FrameLayout
 	{
 		super(context);
 		mParentRecyclerView = recyclerView;
+		//FIXME hippy4tv modify start 这里不能有焦点
+		setFocusable(false);
+
+		setDescendantFocusability(FOCUS_AFTER_DESCENDANTS);
+		//hippy4tv modify end
+
+		Log.d("RecyclerViewItem","RecyclerViewItem create");
+	}
+
+	@Override
+	protected void onFinishInflate() {
+		super.onFinishInflate();
+
+		setFocusable(false);
 	}
 
 	public void setParentRecyclerView(RecyclerViewBase mParentRecyclerView)
@@ -32,8 +47,15 @@ public class RecyclerViewItem extends FrameLayout
 	}
 
 	@Override
+	public int getFocusable() {
+		return super.getFocusable();
+	}
+
+	@Override
 	protected void onAttachedToWindow()
 	{
+
+		setFocusable(false);
 		try
 		{
 			super.onAttachedToWindow();

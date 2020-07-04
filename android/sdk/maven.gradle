@@ -45,8 +45,8 @@ uploadArchives {
                  authentication(userName: MAVEN_USER, password: MAVEN_PWD) // 上传新版本到maven的时候，才打开这个注释。非maven正式版本的管理员请不要操作
             }
             pom.groupId = 'com.tencent.mtt'
-            pom.artifactId = 'hippy'
-            pom.version = '2.0.1-debug'
+            pom.artifactId = 'hippy-tv'
+            pom.version = '2.0.1'
 
             pom.project {
                 licenses {
@@ -58,7 +58,7 @@ uploadArchives {
                 dependencies {
                     dependency {
                         groupId = 'com.tencent.mtt'
-                        artifactId = 'support-ui'
+                        artifactId = 'support-ui-tv'
                         version = '1.2.3'
                     }
                 }
