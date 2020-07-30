@@ -16,6 +16,7 @@
 package com.tencent.mtt.hippy.views.image;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Movie;
@@ -30,10 +31,13 @@ import com.tencent.mtt.hippy.HippyEngineContext;
 import com.tencent.mtt.hippy.HippyInstanceContext;
 import com.tencent.mtt.hippy.adapter.image.HippyDrawable;
 import com.tencent.mtt.hippy.adapter.image.HippyImageLoader;
+import com.tencent.mtt.hippy.common.HippyMap;
+import com.tencent.mtt.hippy.dom.node.NodeProps;
 import com.tencent.mtt.hippy.uimanager.HippyViewBase;
 import com.tencent.mtt.hippy.uimanager.HippyViewController;
 import com.tencent.mtt.hippy.uimanager.HippyViewEvent;
 import com.tencent.mtt.hippy.uimanager.NativeGestureDispatcher;
+import com.tencent.mtt.hippy.utils.PixelUtil;
 import com.tencent.mtt.hippy.utils.UrlUtils;
 import com.tencent.mtt.hippy.views.common.CommonBackgroundDrawable;
 import com.tencent.mtt.hippy.views.common.CommonBorder;
@@ -50,6 +54,9 @@ import com.tencent.mtt.supportui.views.asyncimage.ContentDrawable;
 
 public class HippyImageView extends AsyncImageView implements CommonBorder, HippyViewBase, HippyRecycler
 {
+  public static final String IMAGE_TYPE_APNG  = "apng";
+
+	private HippyMap mIniProps = new HippyMap();
 	private boolean mHasSetTempBackgroundColor = false;
 	private boolean mUserHasSetBackgroudnColor = false;
 	private int 	mUserSetBackgroundColor = Color.TRANSPARENT;
@@ -92,6 +99,7 @@ public class HippyImageView extends AsyncImageView implements CommonBorder, Hipp
 		setImagePositionX(0);
 		setImagePositionY(0);
 		mUrl = null;
+    mImageType = null;
 		setBackgroundDrawable(null);
 		for (int i = 0; i < mShouldSendImageEvent.length; i++)
 		{
@@ -133,6 +141,38 @@ public class HippyImageView extends AsyncImageView implements CommonBorder, Hipp
 		{
 			setImageAdapter(engineContext.getGlobalConfigs().getImageLoaderAdapter());
 		}
+	}
+
+	public void setIniProps(HippyMap iniProps) {
+		int width = 0;
+		int height = 0;
+
+    mIniProps.clear();
+
+		if (iniProps.containsKey(NodeProps.STYLE)) {
+			HippyMap styles = iniProps.getMap(NodeProps.STYLE);
+			if (styles != null) {
+				if (styles.containsKey(NodeProps.WIDTH)) {
+					width = Math.round(PixelUtil.dp2px(styles.getDouble(NodeProps.WIDTH)));
+				}
+
+				if (styles.containsKey(NodeProps.HEIGHT)) {
+					height = Math.round(PixelUtil.dp2px(styles.getDouble(NodeProps.HEIGHT)));
+				}
+
+        if (styles.containsKey(NodeProps.RESIZE_MODE)) {
+          mIniProps.pushString(NodeProps.RESIZE_MODE, styles.getString(NodeProps.RESIZE_MODE));
+        }
+			}
+		}
+
+		if (iniProps.containsKey(NodeProps.CUSTOM_PROP_IMAGE_TYPE)) {
+      mIniProps.pushString(NodeProps.CUSTOM_PROP_IMAGE_TYPE, iniProps.getString(NodeProps.CUSTOM_PROP_IMAGE_TYPE));
+    }
+
+		mIniProps.pushBoolean(NodeProps.CUSTOM_PROP_ISGIF, iniProps.getBoolean(NodeProps.CUSTOM_PROP_ISGIF));
+		mIniProps.pushInt(NodeProps.WIDTH, width);
+		mIniProps.pushInt(NodeProps.HEIGHT, height);
 	}
 
     /**
@@ -193,6 +233,10 @@ public class HippyImageView extends AsyncImageView implements CommonBorder, Hipp
 	{
 		if (mImageAdapter != null)
 		{
+			if (param != null) {
+				mIniProps.pushObject("extraData", param);
+			}
+
 			// 这里不判断下是取背景图片还是取当前图片怎么行？
 			String url = sourceType == SOURCE_TYPE_SRC ? mUrl : mDefaultSourceUrl;
 			mImageAdapter.fetchImage(url, new HippyImageLoader.Callback()
@@ -231,7 +275,7 @@ public class HippyImageView extends AsyncImageView implements CommonBorder, Hipp
 						}
 					}
 				}
-			}, param);
+			}, mIniProps);
 		}
 	}
 	//用户设置了,Js属性设置背景色
@@ -299,7 +343,9 @@ public class HippyImageView extends AsyncImageView implements CommonBorder, Hipp
 	protected void updateContentDrawableProperty()
 	{
 		super.updateContentDrawableProperty();
-		((HippyContentDrawable) mContentDrawable).setNinePatchCoordinate(mNinePatchRect);
+    if (mContentDrawable instanceof HippyContentDrawable) {
+      ((HippyContentDrawable) mContentDrawable).setNinePatchCoordinate(mNinePatchRect);
+    }
 	}
 
 	@Override
@@ -358,7 +404,18 @@ public class HippyImageView extends AsyncImageView implements CommonBorder, Hipp
 		// send onLoadEnd event
 		if (mShouldSendImageEvent[ImageEvent.ONLOAD_END.ordinal()])
 		{
-			getOnLoadEndEvent().send(this, null);
+			HippyMap map = new HippyMap();
+			map.pushInt("success", 1);
+			if (mSourceDrawable != null) {
+			    Bitmap bitmap = mSourceDrawable.getBitmap();
+			    if (bitmap != null) {
+					HippyMap imageSize = new HippyMap();
+					imageSize.pushInt("width", bitmap.getWidth());
+					imageSize.pushInt("height", bitmap.getHeight());
+					map.pushMap("image", imageSize);
+				}
+			}
+			getOnLoadEndEvent().send(this, map);
 		}
 	}
 
@@ -373,7 +430,9 @@ public class HippyImageView extends AsyncImageView implements CommonBorder, Hipp
 		// send onLoadEnd event
 		if (mShouldSendImageEvent[ImageEvent.ONLOAD_END.ordinal()])
 		{
-			getOnLoadEndEvent().send(this, null);
+			HippyMap map = new HippyMap();
+			map.pushInt("success", 0);
+			getOnLoadEndEvent().send(this, map);
 		}
 	}
 
@@ -440,7 +499,25 @@ public class HippyImageView extends AsyncImageView implements CommonBorder, Hipp
 			mGifMovie = ((HippyDrawable) target).getGIF();
 			setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 		}
-		super.handleImageRequest(target, sourceType, requestInfo);
+
+		if (!TextUtils.isEmpty(mImageType) && mImageType.equals(IMAGE_TYPE_APNG) && sourceType == SOURCE_TYPE_SRC) {
+      if (target != null) {
+        Drawable drawable = target.getDrawable();
+        if (drawable != null) {
+          mSourceDrawable = null;
+          mContentDrawable = drawable;
+          mIsUrlFetchSucceed = true;
+          setContent(sourceType);
+          handleGetImageSuccess();
+          return;
+        }
+      }
+
+      mIsUrlFetchSucceed = false;
+      handleGetImageFail(requestInfo instanceof Throwable ? (Throwable) requestInfo : null);
+    } else {
+      super.handleImageRequest(target, sourceType, requestInfo);
+    }
 	}
 
 	/**
