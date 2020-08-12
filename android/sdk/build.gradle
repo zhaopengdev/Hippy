@@ -1,6 +1,9 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.novoda.bintray-release'
 
+apply from:"${tvkit_gradle_scripts_path}"+'build_publish_lib.gradle'
+
+
 ext {
     def flag = System.getenv('CI')
     if (flag != null && flag.toBoolean()) {
