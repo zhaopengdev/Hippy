@@ -1,5 +1,5 @@
 {
-  "name": "hippy-vue-demo",
+  "name": "hippy4tv-vue-demo",
   "version": "2.0.0",
   "private": true,
   "main": "./src/main.js",
@@ -19,6 +19,7 @@
     "huantv": "webpack --config ./scripts/hippy-webpack.android.js"
   },
   "dependencies": {
+    "@hippy4tv/waterfall": "^0.0.1",
     "@hippy/vue": "^2.0.1",
     "@hippy/vue-native-components": "^2.0.1",
     "@hippy/vue-router": "^2.0.1",

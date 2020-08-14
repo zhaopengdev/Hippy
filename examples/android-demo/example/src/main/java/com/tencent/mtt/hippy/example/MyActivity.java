@@ -16,6 +16,8 @@ import com.tencent.mtt.hippy.utils.LogUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+import hippy4tv.APIProvider;
+
 /**
  * Copyright (C) 2005-2020 TENCENT Inc.All Rights Reserved.
  * FileName: MyActivity demo，只展示了常用能力的代码
@@ -73,6 +75,7 @@ public class MyActivity extends Activity
 			};
 			List<HippyAPIProvider> providers = new ArrayList<>();
 			providers.add(new MyAPIProvider());
+			//providers.add(new APIProvider());
 			// 可选：自定义的，用来提供Native modules、JavaScript modules、View controllers的管理器。1个或多个
 			initParams.providers = providers;
 

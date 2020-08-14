@@ -1,5 +1,5 @@
 import Menu from './menu.vue';
-import demos from './components/demos';
+// import demos from './components/demos';
 import nativeDemos from './components/native-demos';
 
 export default {
@@ -18,11 +18,11 @@ export default {
       path: '/',
       component: Menu,
     },
-    ...Object.keys(demos).map(demoId => ({
-      path: `/demo/${demoId}`,
-      name: demos[demoId].name,
-      component: demos[demoId].component,
-    })),
+    // ...Object.keys(demos).map(demoId => ({
+    //   path: `/demo/${demoId}`,
+    //   name: demos[demoId].name,
+    //   component: demos[demoId].component,
+    // })),
     ...Object.keys(nativeDemos).map(demoId => ({
       path: `/demo/${demoId}`,
       name: nativeDemos[demoId].name,

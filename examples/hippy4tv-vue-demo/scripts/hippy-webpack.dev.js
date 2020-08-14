@@ -129,6 +129,17 @@ module.exports = {
         console.warn('* Using the @hippy/vue-native-components defined in package.json');
       }
 
+      const hippy4tvComponentsPath = path.resolve(__dirname, '../../../packages/hippy4tv-vue');
+      if (fs.existsSync(path.resolve(hippy4tvComponentsPath, 'dist/index.js'))) {
+        /* eslint-disable-next-line no-console */
+        console.warn(`* Using the @hippy4tv/waterfall in ${hippy4tvComponentsPath}`);
+        aliases['@hippy4tv/waterfall'] = hippy4tvComponentsPath;
+      } else {
+        /* eslint-disable-next-line no-console */
+        console.warn('* Using the @hippy4tv/waterfall defined in package.json');
+      }
+
+
       return aliases;
     })(),
   },

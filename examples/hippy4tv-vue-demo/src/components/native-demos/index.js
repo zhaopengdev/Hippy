@@ -4,6 +4,7 @@ import demoAnimation from './demo-animation.vue';
 import demoDialog from './demo-dialog.vue';
 import demoListRefresh from './demo-list-refresh.vue';
 import demoSwiper from './demo-swiper.vue';
+import demoWaterfall from './demo-waterfall.vue';
 
 const demos = {};
 
@@ -29,6 +30,10 @@ if (Vue.Native) {
       name: 'swiper 组件',
       component: demoSwiper,
     },
+    demoWaterfall:{
+      name:'Waterfall Demo',
+      component: demoWaterfall,
+    }
   });
 }
 

@@ -15,6 +15,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import hippy4tv.WaterfallViewController;
+
 /**
  * @Description: extend module,view
  * @author: edsheng
@@ -71,6 +73,7 @@ public class MyAPIProvider implements HippyAPIProvider
 		List<Class<? extends HippyViewController>> components = new ArrayList<>();
 		//regist the MyViewController
 		components.add(MyViewController.class);
+		components.add(WaterfallViewController.class);
 		return components;
 	}
 }
