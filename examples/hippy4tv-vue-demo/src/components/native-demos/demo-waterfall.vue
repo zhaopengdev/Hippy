@@ -5,7 +5,7 @@
       <span class="button-text">显示对话</span>
     </button>
     <!-- dialog 无法支持 v-show，只能使用 v-if 进行显示切换 -->
-    <waterfall class="dialog-demo"></waterfall>
+    <waterfall class="waterfall"></waterfall>
   </div>
 </template>
 
@@ -88,5 +88,11 @@ export default {
   background-color: transparent;
 }
 
+.waterfall{
+  height: 200px;
+  width: 400px;
+  margin-top: 10px;
+  background-color: yellow;
+}
 
 </style>

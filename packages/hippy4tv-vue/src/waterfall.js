@@ -11,6 +11,15 @@ function registerWaterfall(Vue) {
     props: {
       color: Number,
     },
+
+    render(h){
+      return h(
+        'my-waterfall',
+        {
+          ref: 'waterfall',
+
+        }, this.$slots.default);
+    }
   });
 
 }
