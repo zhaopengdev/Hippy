@@ -68,6 +68,7 @@ const aliases = {
   '@router': resolvePackage('hippy-vue-router'),
   '@css-loader': resolvePackage('hippy-vue-css-loader'),
   '@native-components': resolvePackage('hippy-vue-native-components'),
+  '@hippy4tv-waterfall': resolvePackage('hippy4tv-vue'),
 };
 
 const builds = {
@@ -100,6 +101,13 @@ const builds = {
     format: 'es',
     moduleName: 'hippy-vue-router',
     banner: banner('@hippy/vue-router', routerPackage.version),
+  },
+  '@hippy4tv/waterfall': {
+    entry: resolvePackage('hippy4tv-vue', 'src/index.js'),
+    dest: resolvePackage('hippy4tv-vue', 'dist/index.js'),
+    format: 'es',
+    moduleName: 'hippy4tv-vue',
+    banner: banner('@hippy4tv/waterfall', routerPackage.version),
   },
 };
 

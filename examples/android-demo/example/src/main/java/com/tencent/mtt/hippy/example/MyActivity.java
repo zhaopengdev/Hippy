@@ -117,6 +117,7 @@ public class MyActivity extends Activity
 						/*
 						  可选：二选一设置。自己开发的业务模块的jsbundle的文件路径（assets路径和文件路径二选一，优先使用assets路径）
 						  debugMode = false 时必须设置jsAssetsPath或jsFilePath（debugMode = true时，所有jsbundle都是从debug server上下载）
+
 						 */
 						loadParams.jsFilePath = null;
 						// 可选：发送给Hippy前端模块的参数

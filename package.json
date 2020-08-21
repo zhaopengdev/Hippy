@@ -22,13 +22,13 @@
     "doc": "docsify serve docs"
   },
   "devDependencies": {
-    "@commitlint/cli": "^8.1.0",
-    "@commitlint/config-conventional": "^8.1.0",
-    "@commitlint/lint": "^8.1.0",
+    "@commitlint/cli": "^10.0.0",
+    "@commitlint/config-conventional": "^10.0.0",
+    "@commitlint/lint": "^10.0.0",
     "@typescript-eslint/eslint-plugin": "^2.15.0",
     "@typescript-eslint/parser": "^2.15.0",
     "@wessberg/rollup-plugin-ts": "^1.1.72",
-    "ava": "^2.2.0",
+    "ava": "^3.11.1",
     "codecov": "^3.6.1",
     "csstype": "^2.6.7",
     "docsify-cli": "^4.4.0",
@@ -37,7 +37,7 @@
     "eslint-import-resolver-alias": "^1.1.2",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-jsx-a11y": "^6.2.3",
-    "eslint-plugin-react": "^7.14.3",
+    "eslint-plugin-react": "^7.20.6",
     "esm": "^3.2.25",
     "flow-remove-types": "^1.2.3",
     "lerna": "^3.16.4",
@@ -57,10 +57,10 @@
     "shelljs": "^0.8.3",
     "tslib": "^1.10.0",
     "typedoc": "^0.15.0",
-    "typedoc-plugin-markdown": "^2.2.10",
+    "typedoc-plugin-markdown": "^2.4.1",
     "typedoc-plugin-no-inherit": "^1.1.10",
     "typescript": "^3.7.4",
-    "vue": "^2.6.10",
+    "vue": "^2.6.12",
     "watch": "^1.0.2"
   },
   "_moduleAliases": {
@@ -75,6 +75,7 @@
     "@vue": "packages/hippy-vue/src",
     "@router": "packages/hippy-vue-router/src",
     "@css-loader": "packages/hippy-vue-css-loader/src",
-    "@native-components": "packages/hippy-vue-native-components/src"
+    "@native-components": "packages/hippy-vue-native-components/src",
+    "@hippy4tv-waterfall":  "packages/hippy4tv-vue/src"
   }
 }
