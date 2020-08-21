@@ -1,7 +1,7 @@
 
 
 function registerWaterfall(Vue) {
-  Vue.registerElement('my-waterfall', {
+  Vue.registerElement('Waterfall', {
     component: {
       name: 'Waterfall',
     },
@@ -14,7 +14,7 @@ function registerWaterfall(Vue) {
 
     render(h){
       return h(
-        'my-waterfall',
+        'Waterfall',
         {
           ref: 'waterfall',
 

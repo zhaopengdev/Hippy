@@ -5,7 +5,7 @@
       <span class="button-text">显示对话</span>
     </button>
     <!-- dialog 无法支持 v-show，只能使用 v-if 进行显示切换 -->
-    <waterfall class="waterfall"></waterfall>
+    <Waterfall class="waterfall"></Waterfall>
   </div>
 </template>
 

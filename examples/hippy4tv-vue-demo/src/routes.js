@@ -1,6 +1,7 @@
 import Menu from './menu.vue';
 // import demos from './components/demos';
 import nativeDemos from './components/native-demos';
+import Waterfall from './components/native-demos/demo-waterfall';
 
 export default {
   /**
@@ -16,7 +17,8 @@ export default {
   routes: [
     {
       path: '/',
-      component: Menu,
+      component:Waterfall,
+      // component: Menu,
     },
     // ...Object.keys(demos).map(demoId => ({
     //   path: `/demo/${demoId}`,
