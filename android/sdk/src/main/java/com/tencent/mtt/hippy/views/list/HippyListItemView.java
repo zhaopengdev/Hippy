@@ -23,6 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.tencent.mtt.hippy.HippyRootView;
+import com.tencent.mtt.hippy.R;
 import com.tencent.mtt.hippy.utils.PixelUtil;
 import com.tencent.mtt.hippy.views.view.HippyViewGroup;
 
@@ -57,6 +58,7 @@ public class HippyListItemView extends HippyViewGroup
 	public HippyListItemView(Context context)
 	{
 		super(context);
+    setBackgroundResource(R.drawable.selector_item_bg);
 		if (VIEW_LEVEL_MONITOR_ENABLE)
 		{
 			mPaint = new Paint();

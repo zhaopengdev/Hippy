@@ -1,24 +1,25 @@
 <template>
-  <ul class="feature-list">
-    <li>
-      <div id="version-info">
-        <p class="feature-title">Vue: {{ Vue.version }}</p>
-        <p class="feature-title" v-if="Vue.Native">Hippy-Vue: {{ Vue.Native.version }}</p>
-      </div>
-    </li>
-    <li>
-      <p class="feature-title">浏览器组件 Demos</p>
-    </li>
-    <li v-for="feature in featureList" :key="feature.id" class="feature-item">
-      <router-link :to="{path: `/demo/${feature.id}`}" class="button">
-        {{ feature.name }}
-      </router-link>
-    </li>
-    <li v-if="nativeFeatureList.length">
-      <p class="feature-title">终端组件 Demos</p>
-    </li>
-    <li v-for="feature in nativeFeatureList" :key="feature.id" class="feature-item">
-      <router-link :to="{path: `/demo/${feature.id}`}" class="button">
+  <ul class="feature-list" :focusable=false>
+<!--    <li>-->
+<!--      <div id="version-info">-->
+<!--        <p class="feature-title">Vue: {{ Vue.version }}</p>-->
+<!--        <p class="feature-title" v-if="Vue.Native">Hippy-Vue: {{ Vue.Native.version }}</p>-->
+<!--      </div>-->
+<!--    </li>-->
+<!--    <li>-->
+<!--      <p class="feature-title">浏览器组件 Demos</p>-->
+<!--    </li>-->
+<!--    <li v-for="feature in featureList" :key="feature.id" class="feature-item">-->
+<!--      <router-link :to="{path: `/demo/${feature.id}`}" class="button">-->
+<!--        {{ feature.name }}-->
+<!--      </router-link>-->
+<!--    </li>-->
+<!--    <li v-if="nativeFeatureList.length" :focuasable=false>-->
+<!--      <p class="feature-title">动态化Demos</p>-->
+<!--    </li>-->
+    <li v-for="feature in nativeFeatureList" :key="feature.id"  class="feature-item"
+        :focusable=true @click="toPath(`/demo/${feature.id}`)">
+      <router-link :to="{path: `/demo/${feature.id}`}" class="button" >
         {{ feature.name }}
       </router-link>
     </li>
@@ -45,6 +46,11 @@ export default {
       Vue,
     };
   },
+  methods:{
+    toPath(vet){
+      this.$router.push(vet)
+    }
+  },
   /**
    * Hippy-Vue 的特殊生命周期方法
    *
@@ -58,8 +64,9 @@ export default {
    * 如果 disableAutoBack = true 阻止了 Back 按键，也可以通过 this.router.history.exitApp() 退出 App
    * 但是这个方法仅限 Android 上通过 Back 按键到最顶页面时触发，其它页面不做响应。
    */
-  beforeAppExit(/* exit */) {
+  beforeAppExit(exit) {
     // 取消 exit() 的注释，即可阻止退出，在前面可以加上退出条件
+    this.router.history.exitApp();
     // exit();
   },
 };

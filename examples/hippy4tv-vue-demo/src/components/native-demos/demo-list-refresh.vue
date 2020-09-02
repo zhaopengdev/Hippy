@@ -1,13 +1,14 @@
+
 <template>
   <div id="demo-list">
     <div class="toolbar">
-      <button class="toolbar-btn" @click="scrollToNextPage">
+      <button class="toolbar-btn" :focusable = true @click="scrollToNextPage">
         <span>翻到下一页</span>
       </button>
-      <button class="toolbar-btn" @click="scrollToBottom">
+      <button class="toolbar-btn" :focusable = true @click="scrollToBottom">
         <span>翻动到底部</span>
       </button>
-      <p class="toolbar-text">列表元素数量：{{ dataSource.length }}</p>
+      <p class="toolbar-text">点击列表位置：{{ clickPosition }}</p>
     </div>
 
     <!-- ul 的下拉刷新需要裹到 ul-refresh-wrapper 组件里，注意它也要全屏样式 -->
@@ -28,10 +29,12 @@
           v-for="(ui, index) in dataSource"
           :key="index"
           :type="ui.style"
+          :focusable = true
+          @click="onclick(index)"
           @layout="onItemLayout"
         >
-            <style-one v-if="ui.style == 1" :itemBean="ui.itemBean" />
-            <style-two v-if="ui.style == 2" :itemBean="ui.itemBean" />
+            <style-one v-if="ui.style == 1" :itemBean="ui.itemBean"  />
+            <style-two v-if="ui.style == 2" :itemBean="ui.itemBean"  />
             <style-five v-if="ui.style == 5" :itemBean="ui.itemBean" />
         </li>
        </ul>
@@ -61,6 +64,7 @@ export default {
         top: 0,
         left: 0,
       },
+      clickPosition: 0,
       Vue,
       STYLE_LOADING,
     };
@@ -138,6 +142,9 @@ export default {
     onItemLayout(evt) {
       // 保存一下 ListItemView 尺寸的高度
       heightOfComponents[evt.target.index] = evt.top;
+    },
+    onclick(evt){
+      this.clickPosition = evt;
     },
     /**
      * 曝光上报

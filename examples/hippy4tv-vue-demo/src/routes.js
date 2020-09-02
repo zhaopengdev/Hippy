@@ -1,14 +1,15 @@
 import Menu from './menu.vue';
 // import demos from './components/demos';
 import nativeDemos from './components/native-demos';
-import Waterfall from './components/native-demos/demo-waterfall';
+// import Waterfall from './components/native-demos/demo-waterfall.vue';
+// import list from './components/native-demos/demo-list-refresh.vue';
 
 export default {
   /**
    * 阻止 Android 上 Back 键触发页面返回
    * 默认值为 false，就是开启 Back 键返回。
    */
-  disableAutoBack: false,
+  disableAutoBack: true,
 
   /**
    * 定义路由
@@ -17,7 +18,7 @@ export default {
   routes: [
     {
       path: '/',
-      component:Waterfall,
+      component:Menu,
       // component: Menu,
     },
     // ...Object.keys(demos).map(demoId => ({

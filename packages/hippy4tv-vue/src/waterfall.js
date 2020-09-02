@@ -1,5 +1,3 @@
-
-
 function registerWaterfall(Vue) {
   Vue.registerElement('Waterfall', {
     component: {
@@ -11,15 +9,19 @@ function registerWaterfall(Vue) {
     props: {
       color: Number,
     },
-
-    render(h){
+    methods: {
+      setWaterfallData(data) {
+        Vue.Native.callUIFunction(this.$refs.Waterfall, 'setWaterfallData', data);
+      },
+    },
+    render(h) {
       return h(
         'Waterfall',
         {
           ref: 'waterfall',
-
-        }, this.$slots.default);
-    }
+        }, this.$slots.default
+      );
+    },
   });
 
 }

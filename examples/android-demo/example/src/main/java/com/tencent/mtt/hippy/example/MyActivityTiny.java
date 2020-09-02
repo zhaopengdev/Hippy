@@ -7,7 +7,6 @@ import android.view.Window;
 import com.tencent.mtt.hippy.HippyEngine;
 import com.tencent.mtt.hippy.HippyRootView;
 import com.tencent.mtt.hippy.adapter.image.HippyImageLoader;
-import com.tencent.mtt.hippy.adapter.thirdparty.HippyThirdPartyAdapter;
 import com.tencent.mtt.hippy.utils.LogUtils;
 
 /**
@@ -57,7 +56,7 @@ public class MyActivityTiny extends Activity
 
 			// 可选：debugMode = false 时必须设置（debugMode = true时，所有jsbundle都是从debug server上下载）
 			initParams.coreJSAssetsPath = "vendor.android.js";
-			
+
 			// 根据EngineInitParams创建引擎实例
 			mHippyEngine = HippyEngine.create(initParams);
 			// 异步初始化Hippy引擎
@@ -90,7 +89,7 @@ public class MyActivityTiny extends Activity
 						  可选：二选一设置。自己开发的业务模块的jsbundle的assets路径（assets路径和文件路径二选一，优先使用assets路径）
 						  debugMode = false 时必须设置jsAssetsPath或jsFilePath（debugMode = true时，所有jsbundle都是从debug server上下载）
 						 */
-						loadParams.jsAssetsPath = "index.android.js";
+						loadParams.jsAssetsPath = "index.android_test.js";
   						// 加载Hippy前端模块
 						mHippyView = mHippyEngine.loadModule(loadParams);
 						setContentView(mHippyView);

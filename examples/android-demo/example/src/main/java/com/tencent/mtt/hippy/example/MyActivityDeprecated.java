@@ -75,7 +75,7 @@ public class MyActivityDeprecated extends Activity implements HippyEngine.Engine
 	{
 		HippyRootViewParams.Builder builder = new HippyRootViewParams.Builder();
 		HippyMap params = new HippyMap();
-		HippyAssetBundleLoader hippyAssetBundleLoader = new HippyAssetBundleLoader(this,"index.android.js");
+		HippyAssetBundleLoader hippyAssetBundleLoader = new HippyAssetBundleLoader(this, "index.android_test.js");
 		if(!mEngineManager.isDebugMode())
 		{
 			builder.setBundleLoader(hippyAssetBundleLoader);

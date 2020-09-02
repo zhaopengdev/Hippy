@@ -93,7 +93,7 @@ public class BaseActivity extends Activity implements EngineListener, DeviceEven
 	public void onInitialized(int i, String s) {
     HippyRootViewParams.Builder builder = new HippyRootViewParams.Builder();
     HippyMap params = new HippyMap();
-    HippyAssetBundleLoader hippyAssetBundleLoader = new HippyAssetBundleLoader(this,"index.android.js");
+    HippyAssetBundleLoader hippyAssetBundleLoader = new HippyAssetBundleLoader(this, "index.android_test.js");
     if(!mEngineManager.isDebugMode())
     {
       builder.setBundleLoader(hippyAssetBundleLoader);

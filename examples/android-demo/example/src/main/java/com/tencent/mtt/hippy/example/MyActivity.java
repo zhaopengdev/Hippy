@@ -16,8 +16,6 @@ import com.tencent.mtt.hippy.utils.LogUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import hippy4tv.APIProvider;
-
 /**
  * Copyright (C) 2005-2020 TENCENT Inc.All Rights Reserved.
  * FileName: MyActivity demo，只展示了常用能力的代码
@@ -45,7 +43,7 @@ public class MyActivity extends Activity
 			// 若存在多个Activity加载多个业务jsbundle的情况，则这里初始化引擎时建议使用Application的Context
 			initParams.context = this;
 			// 必须：图片加载器
-			initParams.imageLoader = new MyImageLoader();
+			initParams.imageLoader = new MyImageLoader(this);
 
 			// 可选：是否设置为debug模式，默认为false。调试模式下，所有jsbundle都是从debug server上下载
 			initParams.debugMode = false;

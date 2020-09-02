@@ -17,9 +17,11 @@ package com.tencent.mtt.hippy.views.list;
 
 import android.content.Context;
 import android.view.View;
+import android.widget.Toast;
 
 import com.tencent.mtt.hippy.HippyRootView;
 import com.tencent.mtt.hippy.annotation.HippyController;
+import com.tencent.mtt.hippy.annotation.HippyControllerProps;
 import com.tencent.mtt.hippy.common.HippyMap;
 import com.tencent.mtt.hippy.uimanager.ControllerManager;
 import com.tencent.mtt.hippy.uimanager.HippyViewController;
@@ -38,8 +40,10 @@ public class HippyListItemViewController extends HippyViewController<HippyListIt
 	@Override
 	protected View createViewImpl(Context context)
 	{
-		return new HippyListItemView(context);
+	  HippyListItemView hippyListItemView = new HippyListItemView(context);
+		return hippyListItemView;
 	}
+
 
 	@Override
 	public RenderNode createRenderNode(int id,  HippyMap props, String className, HippyRootView hippyRootView, ControllerManager controllerManager, boolean lazy) {

@@ -15,6 +15,7 @@
  */
 package com.tencent.mtt.hippy.views.view;
 
+import com.tencent.mtt.hippy.R;
 import com.tencent.mtt.hippy.dom.node.NodeProps;
 import com.tencent.mtt.hippy.uimanager.IHippyZIndexViewGroup;
 import com.tencent.mtt.hippy.uimanager.ViewGroupDrawingOrderHelper;
@@ -53,6 +54,7 @@ public class HippyViewGroup extends HippyImageView implements IHippyZIndexViewGr
 	public HippyViewGroup(Context context)
 	{
 		super(context);
+    setBackgroundResource(R.drawable.selector_item_bg);
 		mDrawingOrderHelper = new ViewGroupDrawingOrderHelper(this);
 		mOldLayerType = LAYER_TYPE_NOT_SET;
 		setScaleType(ScaleType.ORIGIN);

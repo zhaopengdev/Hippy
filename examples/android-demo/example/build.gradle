@@ -6,36 +6,36 @@ def lib = rootProject.ext.libraries
 android {
   compileSdkVersion cfg.compileSdkVersion
   buildToolsVersion cfg.buildToolsVersion
-    defaultConfig {
-        applicationId "com.tencent.mtt.hippy.example"
-      minSdkVersion cfg.minSdkVersion
-      targetSdkVersion cfg.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
-        ndk {
-            abiFilters "armeabi-v7a"
-        }
+  defaultConfig {
+    applicationId "com.tencent.mtt.hippy.example"
+    minSdkVersion cfg.minSdkVersion
+    targetSdkVersion cfg.targetSdkVersion
+    versionCode 1
+    versionName "1.0"
+    ndk {
+      abiFilters "armeabi-v7a"
     }
+  }
 
-    signingConfigs {
-        release {
-            keyAlias 'key0'
-            keyPassword 'hippydemokeypass!'
-            storeFile file('./hippydemo.jks')
-            storePassword 'hippydemostorepass!'
-        }
+  signingConfigs {
+    release {
+      keyAlias 'key0'
+      keyPassword 'hippydemokeypass!'
+      storeFile file('./hippydemo.jks')
+      storePassword 'hippydemostorepass!'
     }
+  }
 
-    buildTypes {
-        release {
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
-        }
-        debug {
-            minifyEnabled false
-        }
+  buildTypes {
+    release {
+      minifyEnabled true
+      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+      signingConfig signingConfigs.release
     }
+    debug {
+      minifyEnabled false
+    }
+  }
 //    externalNativeBuild {
 //        cmake {
 //            path file('../../../android/sdk/src/main/jni/armeabi-v7a/CMakeLists.txt')
@@ -44,8 +44,9 @@ android {
 }
 
 dependencies {
-    api project(path:':android-sdk')
-    api 'com.github.bumptech.glide:glide:3.6.1'
-    api lib['waterfall']
- // implementation lib['hippy']
+  api project(path: ':android-sdk')
+  api 'com.github.bumptech.glide:glide:3.6.1'
+  api lib['waterfall']
+  implementation 'com.android.support:support-v4:25.3.1'
+  // implementation lib['hippy']
 }

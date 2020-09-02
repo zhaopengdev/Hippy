@@ -1,5 +1,7 @@
 package com.tencent.mtt.supportui.views.recyclerview;
 
+import java.security.PrivateKey;
+import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -336,7 +338,10 @@ public class RecyclerView extends RecyclerViewBase implements RecyclerViewBase.O
 
 	public RecyclerViewItem createViewItem()
 	{
-		return new RecyclerViewItem(getContext(), this);
+    RecyclerViewItem recyclerViewItem = new RecyclerViewItem(getContext(), this);
+    recyclerViewItem.setFocusable(false);
+    recyclerViewItem.setDescendantFocusability(FOCUS_AFTER_DESCENDANTS);
+		return recyclerViewItem;
 	}
 
 	@Override
