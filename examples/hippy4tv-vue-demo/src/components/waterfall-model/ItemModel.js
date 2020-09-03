@@ -1,5 +1,5 @@
-function ItemModel(type, rawDataType) {
-  this.type = type
+export function ItemModel() {
+  this.type = '0';
   this.logoUrl = '';
   this.titleStyle = 0;
   this.disableShadow = false;
@@ -14,8 +14,9 @@ function ItemModel(type, rawDataType) {
   this.contentId = -1;
   this.adverId = '';
   this.contentType = -100;
-  this.rawDataType = rawDataType;
+  this.rawDataType = '';
   this.rawData = null;
+  this.isShowPlayIcon = false;
   this.flagTypeText = '';
   this.flagText = '';
   this.displaySubTitle = '';
@@ -23,3 +24,6 @@ function ItemModel(type, rawDataType) {
   this.displayTitle = '';
   this.action = '';
 }
+export default {
+  ItemModel,
+};

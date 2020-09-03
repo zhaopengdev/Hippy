@@ -13,6 +13,8 @@
 
 <script>
 import Vue from 'vue';
+import { mapperWaterfallData } from '../../util';
+import { testData } from '../waterfall-model/WaterfallData';
 
 export default {
   methods: {
@@ -52,8 +54,6 @@ export default {
       backgroundImg: '',
       dialogIsVisible: false,
       dialog2IsVisible: false,
-      sectionModel = new SectionModel('haha',100);
-      sectionModel.title = 'test';
     };
   },
   // 绑定 Vue-Router 的返回 hook
@@ -63,39 +63,47 @@ export default {
       next();
     }
   },
-  computed:{
-    waterfallHeight:function () {
-      return Vue.Native.Dimensions.screen.height + 'px';
+  computed: {
+    waterfallHeight() {
+      // return Vue.Native.Dimensions.screen.height + 'px';
+      return '1000px';
     },
-    waterfallWidth:function () {
-      return Vue.Native.Dimensions.screen.width + 'px';
+    waterfallWidth() {
+      // return Vue.Native.Dimensions.screen.width + 'px';
+      return '600px';
     },
   },
   mounted() {
-    console.log(this.$refs.toString());
+    // console.log(this.$refs.toString());
     // document.getElementById('waterfall').height = Vue.Native.Dimensions.screen.height + 'px'
     // this.refs.waterfall.width = '600px'
     // this.refs.waterfall.height = '1000px'
     // document.getElementById('waterfall').width = Vue.Native.Dimensions.screen.width + 'px'
-    fetch('http://qapi.moss.huan.tv/api/v1/home/layout/272', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: '{"action":"","developer":{"apikey":"2V29G3SD","packagename":"tv.huan.channelzero","secretkey":"5faa1c397ed64d09a17ab89b6b19d373","vercode":1500,"vername":"1.5.0-debug"},"device":{"brand":"OnePlus","clientType":"GM1910","dnum":"21DDF9841191EFABA08DA5402F917C1F","mac":"00db019c25b3","manufacturer":"OnePlus","model":"GM1910"},"param":{"advertCode":"CHANELZERO_CUSTOM_MSG","channelCode":"CHANGHONG","contentId":0,"custom":{"advertCode":"CHANELZERO_CUSTOM_MSG","assetId":"","categoryId":"","communityId":""},"rows":20,"start":0,"versionCode":1500},"user":{"appId":"123","baiduId":"123","city":"","latitude":"","longitude":"","province":"","umengId":"123","userId":0,"userToken":""}}',
-    })
-      // eslint-disable-next-line no-undef
-      .then((rsp) => {
-        console.log(rsp)
-        if (rsp.status === 200) {
-          console.log(rsp.body.code)
-          // if (rsp.body.code == 0) {
-          this.waterfallData = rsp.body;
-          this.backgroundImg = JSON.parse(rsp.body).data.homeArrange.image;
-          // }
-        }
-      });
+    // fetch('http://qapi.moss.huan.tv/api/v1/home/layout/272', {
+    //   method: 'POST',
+    //   headers: {
+    //     Accept: 'application/json',
+    //     'Content-Type': 'application/json',
+    //   },
+    // eslint-disable-next-line max-len
+    //   body: '{"action":"","developer":{"apikey":"2V29G3SD","packagename":"tv.huan.channelzero","secretkey":"5faa1c397ed64d09a17ab89b6b19d373","vercode":1500,"vername":"1.5.0-debug"},"device":{"brand":"OnePlus","clientType":"GM1910","dnum":"21DDF9841191EFABA08DA5402F917C1F","mac":"00db019c25b3","manufacturer":"OnePlus","model":"GM1910"},"param":{"advertCode":"CHANELZERO_CUSTOM_MSG","channelCode":"CHANGHONG","contentId":0,"custom":{"advertCode":"CHANELZERO_CUSTOM_MSG","assetId":"","categoryId":"","communityId":""},"rows":20,"start":0,"versionCode":1500},"user":{"appId":"123","baiduId":"123","city":"","latitude":"","longitude":"","province":"","umengId":"123","userId":0,"userToken":""}}',
+    // })
+    //   // eslint-disable-next-line no-undef
+    //   .then((rsp) => {
+    //     console.log(rsp);
+    //     if (rsp.status === 200) {
+    //       console.log(rsp.body.code);
+    //       // if (rsp.body.code == 0) {
+    //       this.waterfallData = rsp.body;
+    //       mapperWaterfallData(rsp.body.toString());
+    //       this.backgroundImg = JSON.parse(rsp.body).data.homeArrange.image;
+    //       // }
+    //     }
+    //   });
+    // console.log(testData);
+    const rsp = JSON.parse(testData);
+    const formate = mapperWaterfallData(JSON.stringify(rsp.data));
+    console.log(formate);
   },
 };
 </script>
