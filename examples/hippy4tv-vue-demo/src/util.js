@@ -461,7 +461,7 @@ function mapperWaterfallData(dataStr) {
     return value;
   });
   sections = trimSections(sections);
-  pagemodel.mSections.push(sections);
+  pagemodel.mSections = sections;
   return JSON.stringify(pagemodel);
 }
 
