@@ -4,7 +4,7 @@ import { ComponentModel } from './components/waterfall-model/ComponentModel';
 import { ItemModel } from './components/waterfall-model/ItemModel';
 import {
   EXTRA_ITEM_HEIGHT_WITH_TITLE,
-  HEIGHT_TWO_LINE_TITLE,
+  HEIGHT_TWO_LINE_TITLE, TYPE_COMPONENT_AUTO_DATA,
   TYPE_COMPONENT_FLOW,
   TYPE_COMPONENT_FLOW_HORIZONTAL,
   TYPE_COMPONENT_SHORT_VIDEO,
@@ -328,6 +328,34 @@ function homeArrangePlateDetailToItemModel(p, pd, spanCount, isLayoutHorizontal)
   return it;
 }
 
+function buildAutoDataComponent(p) {
+  if (p.data.size() > 0) {
+    const list = [];
+    p.data.map((si) => {
+      const copy = si;
+      copy.communityName = si.assetName;
+      // eslint-disable-next-line max-len
+      const item = shortVideoToItemModel(p, copy, WaterfallConstant.WATERFALL_DEV_HORIZONTAL_SPAN_COUNT);
+      item.isShowPlayIcon = true;
+      item.contentType = 0;
+      list.push(item);
+      return item;
+    });
+    const c = buildGridFlowComponent(list, 1, 4, 2, true);
+    c.type = TYPE_COMPONENT_AUTO_DATA;
+    c.name = 'autoData';
+    c.dataBundle.set('plate', p);
+    // 这里如果时间，服务器的版块接口会不变化，导致每次进入应用内容都相同。所以这里要把时间置成0
+    c.dataBundle.set('createTime', 0);
+    c.marginTop = WATERFALL_SECTION_PADDING_TOP;
+    c.horizontalSpacing = WATERFALL_ITEM_GAP;
+    c.verticalSpacing = WATERFALL_ITEM_GAP;
+    return c;
+  } else {
+    return null;
+  }
+}
+
 function homeArrangePlateToSection(value) {
   const spanCount = 12;
   const s = buildEmptySectionWithHomeArrangePlate(value);
@@ -348,27 +376,30 @@ function homeArrangePlateToSection(value) {
         }
       });
       c = buildShortVideoSeekMoreComponent(list);
+      c.extraType = 'itemList';
       c.horizontalSpacing = WATERFALL_ITEM_GAP;
       c.verticalSpacing = WATERFALL_ITEM_GAP * 2 + 10;
       s.marginTop = WATERFALL_SECTION_GAP;
       break;
     case TYPE_COMPONENT_SHORT_VIDEO:
+      c = buildAutoDataComponent(value);
       // eslint-disable-next-line no-case-declarations
-      const list2 = [];
-      value.data.map((it) => {
-        const copy = it;
-        copy.communityName = it.assetName;
-        const item = shortVideoToItemModel(value, copy);
-        item.isShowPlayIcon = true;
-        item.contentType = 0;
-        if (item.width > 0) {
-          list2.push(item);
-        }
-        return item;
-      });
-      c = buildShortVideoSeekMoreComponent(list2);
-      c.horizontalSpacing = WATERFALL_ITEM_GAP;
-      c.verticalSpacing = WATERFALL_ITEM_GAP + EXTRA_ITEM_HEIGHT_WITH_TITLE;
+      // const list2 = [];
+      // value.data.map((it) => {
+      //   const copy = it;
+      //   copy.communityName = it.assetName;
+      //   const item = shortVideoToItemModel(value, copy);
+      //   item.isShowPlayIcon = true;
+      //   item.contentType = 0;
+      //   if (item.width > 0) {
+      //     list2.push(item);
+      //   }
+      //   return item;
+      // });
+      // c = buildShortVideoSeekMoreComponent(list2);
+      // c.extraType = 'shortVideo';
+      // c.horizontalSpacing = WATERFALL_ITEM_GAP;
+      // c.verticalSpacing = WATERFALL_ITEM_GAP + EXTRA_ITEM_HEIGHT_WITH_TITLE;
       break;
     case TYPE_COMPONENT_FLOW || TYPE_COMPONENT_FLOW_HORIZONTAL:
       if (isHorizontalComponent) {
@@ -390,7 +421,7 @@ function homeArrangePlateToSection(value) {
           componentModel.type = 'PendingCpt';
           componentModel.name = 'pendingHotComponent';
           s.name = 'pendingHotPrograms';
-          componentModel.extra = 'hotPrograms';
+          componentModel.extra = value;
           componentModel.height = 270;
           componentModel.marginBottom = EXTRA_ITEM_HEIGHT_WITH_TITLE;
           // componentModel.dataProvider = HotProgramComponentProvider()

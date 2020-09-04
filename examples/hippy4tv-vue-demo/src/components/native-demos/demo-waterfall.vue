@@ -50,8 +50,8 @@ export default {
         'landscape-right',
       ],
       Vue,
-      waterfallData: '',
-      backgroundImg: '',
+      waterfallData: mapperWaterfallData(JSON.stringify(JSON.parse(testData).data)),
+      // backgroundImg: '',
       dialogIsVisible: false,
       dialog2IsVisible: false,
     };
@@ -75,10 +75,10 @@ export default {
   },
   mounted() {
     // console.log(this.$refs.toString());
-    // document.getElementById('waterfall').height = Vue.Native.Dimensions.screen.height + 'px'
+    document.getElementById('waterfall').height = Vue.Native.Dimensions.screen.height + 'px'
     // this.refs.waterfall.width = '600px'
     // this.refs.waterfall.height = '1000px'
-    // document.getElementById('waterfall').width = Vue.Native.Dimensions.screen.width + 'px'
+    document.getElementById('waterfall').width = Vue.Native.Dimensions.screen.width + 'px'
     // fetch('http://qapi.moss.huan.tv/api/v1/home/layout/272', {
     //   method: 'POST',
     //   headers: {
@@ -101,9 +101,13 @@ export default {
     //     }
     //   });
     // console.log(testData);
-    const rsp = JSON.parse(testData);
-    const formate = mapperWaterfallData(JSON.stringify(rsp.data));
-    console.log(formate);
+    // eslint-disable-next-line func-names
+    setTimeout(function () {
+      const rsp = JSON.parse(testData);
+      const formate = mapperWaterfallData(JSON.stringify(rsp.data));
+      this.waterfallData = formate;
+    }, 4000);
+    // console.log(formate);
   },
 };
 </script>

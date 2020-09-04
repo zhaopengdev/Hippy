@@ -1,10 +1,11 @@
 export function ComponentModel() {
   this.marginTop = 0;
   this.marginBottom = 0;
-  this.type = 0;
+  this.type = 'waterfall';
   this.extra = null;
-  this.extraType = 'waterfall'; // extra的额外类型用于传递给java解析
+  this.extraType = ''; // extra的额外类型用于传递给java解析
   this.items = [];
+  this.dataBundle = new Map();
   this.name = '';
   this.needLoad = true;
   this.width = -1;
