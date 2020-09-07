@@ -66,19 +66,15 @@ export default {
   computed: {
     waterfallHeight() {
       // return Vue.Native.Dimensions.screen.height + 'px';
-      return '1000px';
+      return '540px';
     },
     waterfallWidth() {
-      // return Vue.Native.Dimensions.screen.width + 'px';
-      return '600px';
+      return Vue.Native.Dimensions.screen.width + 'px';
+      // return '600px';
     },
   },
   mounted() {
     // console.log(this.$refs.toString());
-    document.getElementById('waterfall').height = Vue.Native.Dimensions.screen.height + 'px'
-    // this.refs.waterfall.width = '600px'
-    // this.refs.waterfall.height = '1000px'
-    document.getElementById('waterfall').width = Vue.Native.Dimensions.screen.width + 'px'
     // fetch('http://qapi.moss.huan.tv/api/v1/home/layout/272', {
     //   method: 'POST',
     //   headers: {
@@ -104,8 +100,10 @@ export default {
     // eslint-disable-next-line func-names
     setTimeout(function () {
       const rsp = JSON.parse(testData);
+      this.backgroundImg = rsp.data.homeArrange.image;
       const formate = mapperWaterfallData(JSON.stringify(rsp.data));
       this.waterfallData = formate;
+      console.log(formate);
     }, 4000);
     // console.log(formate);
   },
@@ -141,7 +139,7 @@ export default {
 }
 .background{
   flex: 1;
-  height: 600px;
+  height: 540px;
 }
 .waterfall{
   position: absolute;
@@ -149,8 +147,6 @@ export default {
   /*width: 1017px;*/
   left: 0px;
   /*padding-top: 100px;*/
-  padding-left: 40px;
-  padding-right: 40px;
   /*margin-top: 10px;*/
 }
 

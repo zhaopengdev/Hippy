@@ -1,14 +1,14 @@
 <template>
   <div id="root">
-    <div id="header">
-      <img
-        @click="goToHome"
-        v-show="subtitle !== DEBUG_SUBTITLE"
-        :src="imgs.backButtonImg" id="back-btn"
-      />
-      <label class="title">Hippy Vue 示例</label>
-      <label class="title" @click="remoteDebug">{{ subtitle }}</label>
-    </div>
+<!--    <div id="header">-->
+<!--      <img-->
+<!--        @click="goToHome"-->
+<!--        v-show="subtitle !== DEBUG_SUBTITLE"-->
+<!--        :src="imgs.backButtonImg" id="back-btn"-->
+<!--      />-->
+<!--      <label class="title">Hippy Vue 示例</label>-->
+<!--      <label class="title" @click="remoteDebug">{{ subtitle }}</label>-->
+<!--    </div>-->
     <keep-alive>
       <router-view class="feature-content"></router-view>
     </keep-alive>

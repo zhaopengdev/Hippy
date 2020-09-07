@@ -20,7 +20,7 @@ import {
   TYPE_ITEM_STAND_NO_TITLE,
   TYPE_ITEM_STAND_SINGLE_LINE_TITLE,
   TYPE_ITEM_TWO_LINE_TITLE,
-  WATERFALL_COMPONENT_VERTICAL_MARGIN,
+  WATERFALL_COMPONENT_VERTICAL_MARGIN, WATERFALL_DEV_HORIZONTAL_SPAN_COUNT,
   WATERFALL_ITEM_GAP,
   WATERFALL_ITEM_UNITY,
   WATERFALL_SECTION_GAP,
@@ -37,6 +37,68 @@ function setApp(app) {
 function getApp() {
   return cachedApp;
 }
+
+// 过滤所有特殊字符
+const stripscript = function (s) {
+  // eslint-disable-next-line no-control-regex
+  const pattern = new RegExp("[`~!@#$^&*()=|{}':;',\\[\\].<>/?~！@#￥……&*（）——|{}【】‘；：”“'。，、？↵\r\n]");
+  let rs = '';
+  for (let i = 0; i < s.length; i += 1) {
+    rs += s.substr(i, 1).replace(pattern, '');
+  }
+  return rs;
+};
+
+// 字符转16进制数字
+// eslint-disable-next-line camelcase
+const hex_change = function (v) {
+  let res;
+  switch (v) {
+    case 'a': res = 10; break;
+    case 'b': res = 11; break;
+    case 'c': res = 12; break;
+    case 'd': res = 13; break;
+    case 'e': res = 14; break;
+    case 'f': res = 15; break;
+    case '1':
+    case '2':
+    case '3':
+    case '4':
+    case '5':
+    case '6':
+    case '7':
+    case '8':
+    case '9': res = Number(v); break;
+    default: res = 0; break;
+  }
+  return res;
+};
+
+// 返回 v 乘以 n 个 16 的积
+const muti16 = function (v, n) {
+  let temp = v;
+  for (let i = 0; i < n; i += 1) {
+    temp *= 16;
+  }
+  return temp;
+};
+
+// 16进制数转10进制
+// eslint-disable-next-line no-unused-vars
+const ex16hex = function (value) {
+  // eslint-disable-next-line no-param-reassign
+  value = stripscript(value);
+  // eslint-disable-next-line no-param-reassign
+  value = value.replace('0x', '');
+  let arr = value.split('');
+  arr = arr.reverse();
+  let res = 0;
+  arr.forEach((i, v) => {
+    const num = hex_change(v);
+    res += muti16(num, i);
+  });
+  return res;
+};
 
 
 function isEmpty(obj) {
@@ -77,6 +139,9 @@ function isComponentHorizontal(p) {
   let immobileSizeY = 0;
   let isHorizontal = true;
   let row = 1;
+  if (isEmpty(p.plateDetails)) {
+    return isHorizontal;
+  }
   p.plateDetails.forEach((hp) => {
     if (hp.row > row) {
       // 换行
@@ -302,7 +367,9 @@ function configItemWithHomeArrangePlateConfig(it, item) {
     copy.action = it.action;
     copy.contentId = it.contentId;
     copy.logoUrl = it.chlogo;
-    copy.flagBgColor = it.cornerColor;
+    if (!isEmpty(it.cornerColor)) {
+      copy.flagBgColor = ex16hex(it.cornerColor.replace('#', '0x'));
+    }
   }
   return adjustItemForTitle(it.posterTitle, item);
 }
@@ -329,13 +396,13 @@ function homeArrangePlateDetailToItemModel(p, pd, spanCount, isLayoutHorizontal)
 }
 
 function buildAutoDataComponent(p) {
-  if (p.data.size() > 0) {
+  if (!isEmpty(p.data) && p.data.size > 0) {
     const list = [];
     p.data.map((si) => {
       const copy = si;
       copy.communityName = si.assetName;
       // eslint-disable-next-line max-len
-      const item = shortVideoToItemModel(p, copy, WaterfallConstant.WATERFALL_DEV_HORIZONTAL_SPAN_COUNT);
+      const item = shortVideoToItemModel(p, copy, WATERFALL_DEV_HORIZONTAL_SPAN_COUNT);
       item.isShowPlayIcon = true;
       item.contentType = 0;
       list.push(item);
@@ -351,9 +418,8 @@ function buildAutoDataComponent(p) {
     c.horizontalSpacing = WATERFALL_ITEM_GAP;
     c.verticalSpacing = WATERFALL_ITEM_GAP;
     return c;
-  } else {
-    return null;
   }
+  return null;
 }
 
 function homeArrangePlateToSection(value) {
