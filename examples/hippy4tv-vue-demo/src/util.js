@@ -122,13 +122,15 @@ function isEmpty(obj) {
 // 将一个页面转成一个section
 function buildEmptySectionWithHomeArrangePlate(hp) {
   const sectionModel = new SectionModel();
+  sectionModel.id = hp.id;
+  sectionModel.title = hp.plateName;
   sectionModel.showTitle = hp.showPlateName !== 0;
   if (sectionModel.showTitle) {
     sectionModel.marginTop = WATERFALL_SECTION_GAP;
   } else {
     sectionModel.marginTop = WATERFALL_COMPONENT_VERTICAL_MARGIN - WATERFALL_SECTION_PADDING_TOP;
   }
-  if (isEmpty(hp.iconTitle)) {
+  if (!isEmpty(hp.iconTitle)) {
     sectionModel.customHeadItem = { text: hp.plateName, titleLogo: hp.iconTitle };
   }
   return sectionModel;
@@ -213,11 +215,11 @@ function buildGridFlowComponent(sourceList, itemSpan, spanCount, preferLine, tri
     }
 
     if (trim) {
-      if (complete || component.items.size() <= 0) {
-        component.items.addAll(modelLine);
+      if (complete || component.items.length <= 0) {
+        component.items = modelLine;
       }
     } else {
-      component.addAll(modelLine);
+      component.items = modelLine;
     }
   }
 
@@ -396,9 +398,9 @@ function homeArrangePlateDetailToItemModel(p, pd, spanCount, isLayoutHorizontal)
 }
 
 function buildAutoDataComponent(p) {
-  if (!isEmpty(p.data) && p.data.size > 0) {
+  if (!isEmpty(p.data) && p.data.length > 0) {
     const list = [];
-    p.data.map((si) => {
+    p.data.forEach((si) => {
       const copy = si;
       copy.communityName = si.assetName;
       // eslint-disable-next-line max-len
@@ -406,7 +408,6 @@ function buildAutoDataComponent(p) {
       item.isShowPlayIcon = true;
       item.contentType = 0;
       list.push(item);
-      return item;
     });
     const c = buildGridFlowComponent(list, 1, 4, 2, true);
     c.type = TYPE_COMPONENT_AUTO_DATA;

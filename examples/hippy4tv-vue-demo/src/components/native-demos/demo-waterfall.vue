@@ -51,7 +51,7 @@ export default {
       ],
       Vue,
       waterfallData: mapperWaterfallData(JSON.stringify(JSON.parse(testData).data)),
-      // backgroundImg: '',
+      backgroundImg: (JSON.parse(testData)).data.homeArrange.image,
       dialogIsVisible: false,
       dialog2IsVisible: false,
     };
@@ -69,7 +69,7 @@ export default {
       return '540px';
     },
     waterfallWidth() {
-      return Vue.Native.Dimensions.screen.width + 'px';
+      return Vue.Native.Dimensions.window.width + 'px';
       // return '600px';
     },
   },
@@ -103,7 +103,7 @@ export default {
       this.backgroundImg = rsp.data.homeArrange.image;
       const formate = mapperWaterfallData(JSON.stringify(rsp.data));
       this.waterfallData = formate;
-      console.log(formate);
+      // console.log(formate);
     }, 4000);
     // console.log(formate);
   },
