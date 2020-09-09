@@ -12,14 +12,14 @@ import {
   TYPE_ITEM_ACTION,
   TYPE_ITEM_FLIP_AD,
   TYPE_ITEM_PAGE,
-  TYPE_ITEM_PLAYER,
+  TYPE_ITEM_PLAYER, TYPE_ITEM_ROUND_ITEM,
   TYPE_ITEM_SIMPLE,
   TYPE_ITEM_SIMPLE_TYPE_1,
   TYPE_ITEM_SIMPLE_TYPE_2,
   TYPE_ITEM_SIMPLE_TYPE_UNKNOWN,
   TYPE_ITEM_STAND_NO_TITLE,
   TYPE_ITEM_STAND_SINGLE_LINE_TITLE,
-  TYPE_ITEM_TWO_LINE_TITLE,
+  TYPE_ITEM_TWO_LINE_TITLE, TYPE_ITEM_VIRTUAL_PLACE,
   WATERFALL_COMPONENT_VERTICAL_MARGIN, WATERFALL_DEV_HORIZONTAL_SPAN_COUNT,
   WATERFALL_ITEM_GAP,
   WATERFALL_ITEM_UNITY,
@@ -183,7 +183,7 @@ function shortVideoToItemModel(p, si) {
   item = fixItemSizeIfNeedForTwoLine(p, si, item);
   item.posterUrl = si.cover;
   item.action = p.action;
-  item.displayTitle = isEmpty(si.communityName) ? si.assetName : si.communityNam;
+  item.displayTitle = isEmpty(si.communityName) ? si.assetName : si.communityName;
   return item;
 }
 
@@ -196,17 +196,19 @@ function buildGridFlowComponent(sourceList, itemSpan, spanCount, preferLine, tri
     let spanValue = 0;
     const modelLine = [];
     let complete = false;
-    while (sourceList.length > index) {
-      const item = sourceList[index];
+    const itemLength = sourceList.length;
+    while (itemLength > index) {
+      const item = sourceList[0];
       index += 1;
       const intentSpan = spanValue + itemSpan;
       if (intentSpan < spanCount) {
         spanValue += itemSpan;
         modelLine.push(item);
-        sourceList.pop();
+        sourceList.shift();
       } else if (intentSpan === spanCount) {
         modelLine.push(item);
-        sourceList.pop();
+        sourceList.shift();
+        index = 0;
         complete = true;
         break;
       } else {
@@ -216,10 +218,10 @@ function buildGridFlowComponent(sourceList, itemSpan, spanCount, preferLine, tri
 
     if (trim) {
       if (complete || component.items.length <= 0) {
-        component.items = modelLine;
+        component.items = component.items.concat(modelLine);
       }
     } else {
-      component.items = modelLine;
+      component.items = component.items.concat(modelLine);
     }
   }
 
@@ -262,19 +264,19 @@ function fixItemType(p, pd, item) {
         break;
     }
     if (isEmpty(type)) {
-      switch (`${pd.type}`) {
-        // 根据type确定item的类型
-        case TYPE_ITEM_SIMPLE:
-          copy.type = `${pd.type}`;
-          break;
-        case TYPE_ITEM_SIMPLE_TYPE_1:
-          copy.type = `${pd.type}`;
-          break;
-        case TYPE_ITEM_SIMPLE_TYPE_2:
-          copy.type = `${pd.type}`;
-          break;
-        default:
-          copy.type = TYPE_ITEM_SIMPLE_TYPE_UNKNOWN;
+      if (`${pd.type}` === TYPE_ITEM_SIMPLE || `${pd.type}  ` === TYPE_ITEM_SIMPLE_TYPE_1 || `${pd.type}` === TYPE_ITEM_SIMPLE_TYPE_2) {
+        switch (`${item.titleStyle}`) {
+          case 1:
+            copy.type = TYPE_COMPONENT_SINGLE_LINE;
+            break;
+          case 2:
+            copy.type = TYPE_ITEM_TWO_LINE_TITLE;
+            break;
+          default:
+            break;
+        }
+      } else {
+        copy.type = TYPE_ITEM_SIMPLE_TYPE_UNKNOWN;
       }
     }
     if (isEmpty(copy.type)) {
@@ -288,6 +290,16 @@ function fixItemType(p, pd, item) {
         default:
           copy.type = TYPE_ITEM_TWO_LINE_TITLE;
       }
+    }
+    // eslint-disable-next-line default-case
+    switch (pd.detailStyle) {
+      case 2:
+        copy.type = TYPE_ITEM_VIRTUAL_PLACE;
+        break;
+      case 1:
+        copy.disableShadow = true;
+        copy.type = TYPE_ITEM_ROUND_ITEM;
+        break;
     }
   }
   return copy;
@@ -412,9 +424,9 @@ function buildAutoDataComponent(p) {
     const c = buildGridFlowComponent(list, 1, 4, 2, true);
     c.type = TYPE_COMPONENT_AUTO_DATA;
     c.name = 'autoData';
-    c.dataBundle.set('plate', p);
+    const dataBoundle = { plate: p, createTime: 0 };
+    c.dataBundle = dataBoundle;
     // 这里如果时间，服务器的版块接口会不变化，导致每次进入应用内容都相同。所以这里要把时间置成0
-    c.dataBundle.set('createTime', 0);
     c.marginTop = WATERFALL_SECTION_PADDING_TOP;
     c.horizontalSpacing = WATERFALL_ITEM_GAP;
     c.verticalSpacing = WATERFALL_ITEM_GAP;
